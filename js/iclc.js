@@ -177,6 +177,9 @@ MIDI.init()
 Gibberish.init();  
 Gibberish.Time.export();
 Gibberish.Binops.export();
+Gibberish.getSeq = function() {
+  return window.seq
+}
 
 bpm = 100;	// somehow need to make this globally modifiable
 sr = Gibberish.context.sampleRate;
