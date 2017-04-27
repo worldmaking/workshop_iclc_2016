@@ -551,18 +551,20 @@ Type any pattern into the text box below and click to run it.
 </div>
 
 <script>
+window.useMIDI = false
+window.useWS = false
 
-var body = document.getElementById('sourcetext').innerText;
-document.getElementById('main_body').innerHTML = marked(body);
-document.getElementById('toc').innerHTML = marked(toc.join("\n"));
-
-
+// var body = document.getElementById('sourcetext').innerText;
+// document.getElementById('main_body').innerHTML = marked(body);
+// document.getElementById('toc').innerHTML = marked(toc.join("\n"));
 
 ////////////////////////////////////////////////////////////////////////////////
 
-$(".lang-javascript").each(function() {
-	$(this).click(function() { window.seq.play_element_text(this); });
-});
+window.addEventListener('load', function() {
+  $(".lang-javascript").each(function() {
+	  $(this).click(function() { window.seq.play_element_text(this); });
+  });
+})
 
 </script>
 

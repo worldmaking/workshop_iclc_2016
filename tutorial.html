@@ -913,46 +913,8 @@ Some live coding languages make an effort to use textual space in a temporally-m
 </div>
 
 <script>
-
-var body = document.getElementById('sourcetext').innerText;
-document.getElementById('main_body').innerHTML = marked(body);
-document.getElementById('toc').innerHTML = marked(toc.join("\n"));
-
-$(".input").each(function() {
-	$(this).keyup(function() { changed_value(this); });
-	$(this).focus(function() { changed_value(this); });
-	$(this).after('<code class="result"></code>');
-	changed_value(this, true);
-});
-
-
-function changed_value(element, noplay) {
-	var input = $(element)[0].value;
-	// find previous grammar:
-	var grammar = $(element).prevAll(":has(.lang-peg):first").find(".lang-peg")[0].innerText;
-	
-	var result = "";
-	try {
-		// update our parser:
-		var parser = PEG.buildParser(grammar);
-		var output = parser.parse(input);
-		result = JSON.stringify(output);
-		// try to play it?
-		if (!noplay && Array.isArray(output)) {
-			window.seq.define("default", output);
-		}
-	} catch(ex) {
-		//console.log(ex.message);
-		result = ex.message;
-	}
-	$(element).next( ".result" )[0].innerText = result; //.text(result);
-}
-
-setTimeout( function() {
-  window.seq = Gibberish.getSeq()
-  console.log( 'THIS IS THE SEQ', window.seq )
-}, 5000 )
-
+  window.useMIDI = false
+  window.useWS = false
 </script>
 
 </body>
