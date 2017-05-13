@@ -1,0 +1,63 @@
+
+VM questions:
+
+should @note be @pluck so we don't have to think about instrument names?
+
+should we have a [amp, freq, @pluck-note] for simplicity?
+
+similarly for @snare etc, assume they use current @amp and instead have [amp @snare-note]
+
+
+4 really different ways of saying the same thing (very different grammars)
+
+
+
+kind of a problem: the seq.define() doesn't respect the existing timing, so it just fires whenever it is clicked -- really takes away the feeling of replacement. 
+The sense you would have is that a pattern should replace on the same rhythm, even ideally on its natural loop, but natural loop isn't something we have. we don't exactly have a position in a loop even. 
+but we do have a marker for where the @loop occurs, and we could in theory modify the array in place for the loop that was spawned.
+--
+working better now, but only if the names are all defined up-front. otherwise it's still basically whenever you click.
+also now questionable whether we really need more than one PQ ever. let the spawn names be the names. 
+for one-shots, use "default" as the spawn name.
+-- 
+another idea: have a background forever task that ticks every beat at the root, and always move @spawn messages into that task as one-shots.
+-- 
+do we really need named seqs now? isn't it all in default?
+
+
+---
+
+Starting to realize that my left/right data/control flow mapping might not be 100% right... because we can't <list> @set-<name>. Somehow it's really about quoted/unquoted. 
+
+value @set-a
+`list @set-a
+
+`list @pick  (we had been using "pick list" for this)
+@get-a @pick
+
+
+`list @loop => `[`list @forever] @fork
+`list @forever => list `list @forever
+
+instead of prob @chance list1 list2, use:
+prob `list1 `list2 @chance => list1  (or list2)
+
+
+Basically `[...] means stack.push() whereas [...] means execute.
+Values (non-lists) are always stack.push() unless they are @actions
+
+If we do it like that, we don't need left/right variations. The quote does the vau.
+
+
+Is there an easy way to do ` other than ["@quote", [...]]?
+How about literally quote as string, as "[...]"? (i.e. JSON.stringify)?
+So when we unquote, we JSON.parse() ?
+
+can we JSON.stringify(JSON.stringify()) and JSON.parse(JSON.parse))? Yes.
+
+So, loop(patt) { return [quote(patt), "@loop"]; }
+
+---
+
+Another idea was to see if we can convert the score into a javascript function, minimizing the interpreter hit.
+
