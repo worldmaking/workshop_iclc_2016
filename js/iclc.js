@@ -1442,7 +1442,7 @@ window.addEventListener( 'load', ()=> {
 
     setTimeout( function() {
       window.seq = Gibberish.getSeq()
-      console.log( 'THIS IS THE SEQ', window.seq )
+      //console.log( 'THIS IS THE SEQ', window.seq )
     }, 5000 )
 
   }
